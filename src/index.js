@@ -9,6 +9,9 @@ import { Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
 import orderCommand from './commands/order.js';
 import rolesCommand from './commands/roles.js';
+import usersCommand from './commands/user.js';
+import channelCommand from './commands/channel.js';
+
 //invoke config function for environment variables
 config();
 
@@ -33,7 +36,6 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 client.on('interactionCreate', (interaction) => {
 	if (interaction.isChatInputCommand()) {
 		if (interaction.commandName == 'addrole') {
-			console.log(interaction.options.get('newrole'))
 			interaction.reply({
 				content: `I understand you want this particular role called ${
 					interaction.options.get('newrole').name
@@ -43,6 +45,13 @@ client.on('interactionCreate', (interaction) => {
 		if (interaction.commandName == 'order') {
 			interaction.reply({
 				content: `I love ${interaction.options.get('food').value} too`,
+			});
+		}
+		if (interaction.commandName == 'users') {
+			interaction.reply({
+				content: `This is a ${
+					interaction.options.get('useroption').name
+				} command`,
 			});
 		}
 	}
@@ -57,7 +66,7 @@ client.login(TOKEN);
 
 //returns custom slash commands to Discord server
 async function main() {
-	const commands = [orderCommand, rolesCommand];
+	const commands = [orderCommand, rolesCommand, usersCommand, channelCommand];
 
 	try {
 		console.log('Started refreshing application (/) commands.');
