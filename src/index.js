@@ -2,6 +2,7 @@ import { Client, ClientPresence, GatewayIntentBits } from 'discord.js';
 import { config } from 'dotenv';
 import { Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
+import {SlashCommandBuilder} from '@discordjs/builders'
 //invoke config function for environment variables
 config();
 
