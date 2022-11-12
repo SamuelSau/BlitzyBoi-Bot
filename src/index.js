@@ -2,7 +2,8 @@ import { Client, ClientPresence, GatewayIntentBits } from 'discord.js';
 import { config } from 'dotenv';
 import { Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
-import {SlashCommandBuilder} from '@discordjs/builders'
+import orderCommand  from './commands/order.js';
+
 //invoke config function for environment variables
 config();
 
@@ -27,7 +28,7 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 client.on('interactionCreate', (interaction) => {
 	if (interaction.isChatInputCommand()) {
 		interaction.reply({
-			content: `You ordered ${interaction.options.get('buy').value}`,
+			content: `You ordered ${interaction.options.get('food').value}`,
 		});
 	}
 });
@@ -41,39 +42,8 @@ client.login(TOKEN);
 
 //returns custom slash commands to Discord server
 async function main() {
-	const commands = [
-		{
-			name: 'shop',
-			description: 'You got gold?',
-			options: [
-				{
-					name: 'buy',
-					description: 'Want to buy something?',
-					type: 3,
-					required: true,
-					choices: [
-						{
-							name: 'Cake',
-							value: 'cake_value',
-						},
-						{
-							name: 'Burger',
-							value: 'burger_value',
-						},
-					],
-				},
-			],
-		},
 
-		{
-			name: 'bet',
-			description: 'Bet on red side',
-		},
-		{
-			name: 'info',
-			description: 'Receive player stats',
-		},
-	];
+	const commands = [orderCommand];
 
 	try {
 		console.log('Started refreshing application (/) commands.');
