@@ -1,16 +1,11 @@
 import {
 	Client,
-	ClientPresence,
-	CommandInteractionOptionResolver,
 	GatewayIntentBits,
 } from 'discord.js';
 import { config } from 'dotenv';
 import { Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
 import orderCommand from './commands/order.js';
-import rolesCommand from './commands/roles.js';
-import usersCommand from './commands/user.js';
-import channelCommand from './commands/channel.js';
 
 //invoke config function for environment variables
 config();
@@ -35,22 +30,10 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 //bot interaction with the slash commands
 client.on('interactionCreate', (interaction) => {
 	if (interaction.isChatInputCommand()) {
-		if (interaction.commandName == 'addrole') {
-			interaction.reply({
-				content: `I understand you want this particular role called ${
-					interaction.options.get('newrole').name
-				}`,
-			});
-		}
 		if (interaction.commandName == 'order') {
 			interaction.reply({
-				content: `I love ${interaction.options.get('food').value} too`,
-			});
-		}
-		if (interaction.commandName == 'users') {
-			interaction.reply({
-				content: `This is a ${
-					interaction.options.get('useroption').name
+				content: `The particular command you called was ${
+					interaction.options.get('order').name
 				} command`,
 			});
 		}
@@ -62,11 +45,12 @@ client.on('interactionCreate', (interaction) => {
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.username}!`);
 });
+
 client.login(TOKEN);
 
 //returns custom slash commands to Discord server
 async function main() {
-	const commands = [orderCommand, rolesCommand, usersCommand, channelCommand];
+	const commands = [orderCommand];
 
 	try {
 		console.log('Started refreshing application (/) commands.');
