@@ -1,11 +1,8 @@
-import {
-	Client,
-	GatewayIntentBits,
-} from 'discord.js';
+import { Client, GatewayIntentBits } from 'discord.js';
 import { config } from 'dotenv';
 import { Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
-import orderCommand from './commands/order.js';
+import shopCommand from './commands/shop.js';
 
 //invoke config function for environment variables
 config();
@@ -33,7 +30,7 @@ client.on('interactionCreate', (interaction) => {
 		if (interaction.commandName == 'order') {
 			interaction.reply({
 				content: `The particular command you called was ${
-					interaction.options.get('order').name
+					interaction.options.get('food').value
 				} command`,
 			});
 		}
@@ -50,7 +47,7 @@ client.login(TOKEN);
 
 //returns custom slash commands to Discord server
 async function main() {
-	const commands = [orderCommand];
+	const commands = [shopCommand];
 
 	try {
 		console.log('Started refreshing application (/) commands.');
