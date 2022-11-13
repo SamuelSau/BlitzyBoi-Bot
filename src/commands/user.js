@@ -4,7 +4,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 const usersCommand = new SlashCommandBuilder()
 	.setName('users')
 	.setDescription('Add user options')
-	.addRoleOption((option) =>
+	.addUserOption((option) =>
 		option
 			.setName('useroption')
 			.setDescription('Adding user option')
