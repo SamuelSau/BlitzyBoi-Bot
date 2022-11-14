@@ -2,8 +2,10 @@ import { ButtonStyle, Client, GatewayIntentBits } from 'discord.js';
 import { config } from 'dotenv';
 import { Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
-import shopCommand from './commands/shop.js';
+import buyCommand from './commands/buy.js';
 import betCommand from './commands/bet.js';
+import viewCommand from './commands/view.js';
+import ownedCommand from './commands/owned.js';
 import { ActionRowBuilder, ButtonBuilder } from '@discordjs/builders';
 
 //invoke config function for environment variables
@@ -28,6 +30,7 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 //bot interaction with the slash commands
 client.on('interactionCreate', (interaction) => {
+	//buy from the shop
 	if (interaction.isChatInputCommand()) {
 		if (interaction.commandName == 'shop') {
 			if (interaction.options.get('buy')) {
@@ -38,33 +41,57 @@ client.on('interactionCreate', (interaction) => {
 		}
 	}
 
+	//check owned items
+	if (interaction.isChatInputCommand()) {
+		if (interaction.commandName == 'owned') {
+			interaction.reply({
+				content: 'These are the items you own',
+			});
+		}
+	}
+
+	//view the shop items
+	if (interaction.isChatInputCommand()) {
+		if (interaction.commandName == 'view') {
+			interaction.reply({
+				content: 'This is what shop has to offer',
+			});
+		}
+	}
+
 	//betting team interaction
-	if (interaction.commandName == 'bet') {
-		interaction.reply({
-			content: 'Choose your winner',
-			components: [
-				new ActionRowBuilder().setComponents(
-					new ButtonBuilder()
-						.setCustomId('button1')
-						.setLabel('Red Team')
-						.setStyle(ButtonStyle.Danger),
-					new ButtonBuilder()
-						.setCustomId('button2')
-						.setLabel('Blue Team')
-						.setStyle(ButtonStyle.Primary)
-				),
-			],
-		});
+	if (interaction.isChatInputCommand()) {
+		if (interaction.commandName == 'bet') {
+			interaction.reply({
+				content: 'Choose your winner',
+				components: [
+					new ActionRowBuilder().setComponents(
+						new ButtonBuilder()
+							.setCustomId('button1')
+							.setLabel('Red Team')
+							.setStyle(ButtonStyle.Danger),
+						new ButtonBuilder()
+							.setCustomId('button2')
+							.setLabel('Blue Team')
+							.setStyle(ButtonStyle.Primary)
+					),
+				],
+			});
+		}
 	}
-	if (interaction.customId == 'button1') {
-		interaction.reply({
-			content: 'You just clicked the red button',
-		});
-	}
-	if (interaction.customId == 'button2') {
-		interaction.reply({
-			content: 'You just clicked on the blue button',
-		});
+
+	//button interaction after using /bet command
+	if (interaction.isButton()) {
+		if (interaction.customId == 'button1') {
+			interaction.reply({
+				content: `You just clicked on Red Team`,
+			});
+		}
+		if (interaction.customId == 'button2') {
+			interaction.reply({
+				content: 'You just clicked on Blue Team',
+			});
+		}
 	}
 });
 
@@ -78,7 +105,7 @@ client.login(TOKEN);
 
 //returns custom slash commands to Discord server
 async function main() {
-	const commands = [shopCommand, betCommand];
+	const commands = [buyCommand, betCommand, viewCommand, ownedCommand];
 
 	try {
 		console.log('Started refreshing application (/) commands.');
