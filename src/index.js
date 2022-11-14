@@ -28,15 +28,15 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 //bot interaction with the slash commands
 client.on('interactionCreate', (interaction) => {
-	// if (interaction.isChatInputCommand()) {
-	// 	if (interaction.commandName == 'order') {
-	// 		interaction.reply({
-	// 			content: `The particular command you called was ${
-	// 				interaction.options.get('food').value
-	// 			} command`,
-	// 		});
-	// 	}
-	// }
+	if (interaction.isChatInputCommand()) {
+		if (interaction.commandName == 'shop') {
+			if (interaction.options.get('buy')) {
+				interaction.reply({
+					content: `You just bought a ${interaction.options.get('buy').value}`,
+				});
+			}
+		}
+	}
 
 	//betting team interaction
 	if (interaction.commandName == 'bet') {
@@ -54,6 +54,16 @@ client.on('interactionCreate', (interaction) => {
 						.setStyle(ButtonStyle.Primary)
 				),
 			],
+		});
+	}
+	if (interaction.customId == 'button1') {
+		interaction.reply({
+			content: 'You just clicked the red button',
+		});
+	}
+	if (interaction.customId == 'button2') {
+		interaction.reply({
+			content: 'You just clicked on the blue button',
 		});
 	}
 });

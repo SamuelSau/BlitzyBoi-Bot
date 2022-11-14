@@ -11,12 +11,12 @@ const shopCommand = new SlashCommandBuilder()
 			.setRequired(true)
 			.addChoices(
 				{
-					name: "Doran's blade",
-					value: "This is Doran's blade",
+					name: "Doran blade",
+					value: "Doran's blade",
 				},
 				{
-					name: "Doran's shield",
-					value: "This is Doran's shield",
+					name: "Doran shield",
+					value: "Doran's shield",
 				}
 			)
 	);
