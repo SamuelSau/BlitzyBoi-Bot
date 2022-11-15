@@ -7,6 +7,8 @@ import betCommand from './commands/bet.js';
 import viewCommand from './commands/view.js';
 import ownedCommand from './commands/owned.js';
 import { ActionRowBuilder, ButtonBuilder } from '@discordjs/builders';
+import shopCommand from './commands/shop.js';
+import { calculatePoints } from './riot api/points.js';
 
 //invoke config function for environment variables
 config();
@@ -30,35 +32,6 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 //bot interaction with the slash commands
 client.on('interactionCreate', (interaction) => {
-	//buy from the shop
-	if (interaction.isChatInputCommand()) {
-		if (interaction.commandName == 'shop') {
-			if (interaction.options.get('buy')) {
-				interaction.reply({
-					content: `You just bought a ${interaction.options.get('buy').value}`,
-				});
-			}
-		}
-	}
-
-	//check owned items
-	if (interaction.isChatInputCommand()) {
-		if (interaction.commandName == 'owned') {
-			interaction.reply({
-				content: 'These are the items you own',
-			});
-		}
-	}
-
-	//view the shop items
-	if (interaction.isChatInputCommand()) {
-		if (interaction.commandName == 'view') {
-			interaction.reply({
-				content: 'This is what shop has to offer',
-			});
-		}
-	}
-
 	//betting team interaction
 	if (interaction.isChatInputCommand()) {
 		if (interaction.commandName == 'bet') {
@@ -105,8 +78,8 @@ client.login(TOKEN);
 
 //returns custom slash commands to Discord server
 async function main() {
-	const commands = [buyCommand, betCommand, viewCommand, ownedCommand];
-
+	const commands = [betCommand, shopCommand];
+	console.log(calculatePoints(1000, 200, false));
 	try {
 		console.log('Started refreshing application (/) commands.');
 
